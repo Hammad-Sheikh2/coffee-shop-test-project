@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+# If running the rails server then create or migrate existing database
+if [ "${*}" == "./bin/rails server" ]; then
+    ./bin/rake db:prepare
+fi
+
+# Start the Rails server
+exec "${@}"
