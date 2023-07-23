@@ -15,12 +15,18 @@ spec:
       containers:
       - name: coffee-shop-app
         image: docker.io/itshammadsheikh/coffe-shop-test-project:latest
+        env:
+          - name: PRODUCTION_HOST
+            valueFrom:
+              secretKeyRef:
+                name: production-host-secret
+                key: PRODUCTION_HOST
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 5000
+        - containerPort: 3000
 
 ---
 
@@ -31,8 +37,8 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app.kubernetes.io/name: coffee-shop-app
+    app: coffee-shop-app
   ports:
-    - port: 5000
-      targetPort: 5000
+    - port: 3000
+      targetPort: 3000
       nodePort: 30007
